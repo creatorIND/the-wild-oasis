@@ -35,7 +35,7 @@ function LoginForm() {
 					type="email"
 					id="email"
 					// This makes this form better for password managers
-					autoComplete="username"
+					autoComplete="email"
 					value={email}
 					onChange={(e) => setEmail(e.target.value)}
 					disabled={isAuthenticating}
