@@ -6,14 +6,22 @@ import FormRow from "../../ui/FormRow";
 import Input from "../../ui/Input";
 
 import { useUpdateUser } from "./useUpdateUser";
+import { useUser } from "./useUser";
+
+const testUserMail = import.meta.env.VITE_LOGIN_ID;
 
 function UpdatePasswordForm() {
 	const { register, handleSubmit, formState, getValues, reset } = useForm();
 	const { errors } = formState;
 
+	const { user } = useUser();
 	const { updateUser, isUpdatingUser } = useUpdateUser();
 
+	const isTestUser = user.email === testUserMail;
+
 	function onSubmit({ password }) {
+		if (isTestUser) return;
+
 		updateUser({ password }, { onSuccess: reset });
 	}
 
@@ -26,8 +34,9 @@ function UpdatePasswordForm() {
 				<Input
 					type="password"
 					id="password"
+					placeholder={isTestUser ? "Not allowed for this user" : ""}
 					autoComplete="new-password"
-					disabled={isUpdatingUser}
+					disabled={isUpdatingUser || isTestUser}
 					{...register("password", {
 						required: "This field is required",
 						minLength: {
@@ -45,8 +54,9 @@ function UpdatePasswordForm() {
 				<Input
 					type="password"
 					autoComplete="new-password"
+					placeholder={isTestUser ? "Not allowed for this user" : ""}
 					id="passwordConfirm"
-					disabled={isUpdatingUser}
+					disabled={isUpdatingUser || isTestUser}
 					{...register("passwordConfirm", {
 						required: "This field is required",
 						validate: (value) =>
@@ -60,11 +70,13 @@ function UpdatePasswordForm() {
 					onClick={reset}
 					type="reset"
 					variation="secondary"
-					disabled={isUpdatingUser}
+					disabled={isUpdatingUser || isTestUser}
 				>
 					Cancel
 				</Button>
-				<Button disabled={isUpdatingUser}>Update password</Button>
+				<Button disabled={isUpdatingUser || isTestUser}>
+					Update password
+				</Button>
 			</FormRow>
 		</Form>
 	);
