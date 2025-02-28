@@ -50,6 +50,25 @@ export async function logout() {
 }
 
 export async function updateCurrentUser({ password, fullName, avatar }) {
+	const {
+		data: { user },
+	} = await supabase.auth.getUser();
+	const demoUserEmail = import.meta.env.VITE_LOGIN_ID;
+
+	if (user.email === demoUserEmail) {
+		throw new Error(
+			"Demo account user data cannot be updated, kindly create a new user"
+		);
+	}
+
+	const emailHash = btoa(user.email);
+	const demoHash = btoa(demoUserEmail);
+	if (emailHash === demoHash) {
+		throw new Error(
+			"Demo account user data cannot be updated, kindly create a new user"
+		);
+	}
+
 	// 1. Update password OR fullName
 	let updateData;
 	if (password) updateData = { password };
