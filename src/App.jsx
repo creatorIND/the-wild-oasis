@@ -40,8 +40,7 @@ function App() {
 								<ProtectedRoute>
 									<AppLayout />
 								</ProtectedRoute>
-							}
-						>
+							}>
 							<Route
 								index
 								element={<Navigate replace to="dashboard" />}

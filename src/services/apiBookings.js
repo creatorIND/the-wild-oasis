@@ -32,7 +32,6 @@ export async function getBookings({ filter, sortBy, page }) {
 	const { data, error, count } = await query;
 
 	if (error) {
-		console.error(error.message);
 		throw new Error("Bookings could not be loaded");
 	}
 
@@ -47,7 +46,6 @@ export async function getBooking(id) {
 		.single();
 
 	if (error) {
-		console.error(error.message);
 		throw new Error("Booking not found");
 	}
 
@@ -64,7 +62,6 @@ export async function getBookingsAfterDate(date) {
 		.lte("created_at", getToday({ end: true }));
 
 	if (error) {
-		console.error(error.message);
 		throw new Error("Bookings could not get loaded");
 	}
 
@@ -81,7 +78,6 @@ export async function getStaysAfterDate(date) {
 		.lte("startDate", getToday());
 
 	if (error) {
-		console.error(error.message);
 		throw new Error("Bookings could not get loaded");
 	}
 
@@ -103,7 +99,6 @@ export async function getStaysTodayActivity() {
 	// (stay.status === 'checked-in' && isToday(new Date(stay.endDate)))
 
 	if (error) {
-		console.error(error.message);
 		throw new Error("Bookings could not get loaded");
 	}
 	return data;
@@ -118,7 +113,6 @@ export async function updateBooking(id, obj) {
 		.single();
 
 	if (error) {
-		console.error(error.message);
 		throw new Error("Booking could not be updated");
 	}
 	return data;
@@ -132,7 +126,6 @@ export async function deleteBooking(id) {
 		.eq("id", id);
 
 	if (error) {
-		console.error(error.message);
 		throw new Error("Booking could not be deleted");
 	}
 	return data;

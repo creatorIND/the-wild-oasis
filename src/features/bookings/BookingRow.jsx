@@ -23,7 +23,6 @@ const Cabin = styled.div`
 	font-size: 1.6rem;
 	font-weight: 600;
 	color: var(--color-grey-600);
-	font-family: "Sono";
 `;
 
 const Stacked = styled.div`
@@ -42,18 +41,15 @@ const Stacked = styled.div`
 `;
 
 const Amount = styled.div`
-	font-family: "Sono";
 	font-weight: 500;
 `;
 
 function BookingRow({
 	booking: {
 		id: bookingId,
-		created_at,
 		startDate,
 		endDate,
 		numNights,
-		numGuests,
 		totalPrice,
 		status,
 		guests: { fullName: guestName, email },
@@ -102,8 +98,7 @@ function BookingRow({
 					<Menus.List id={bookingId}>
 						<Menus.Button
 							icon={<HiEye />}
-							onClick={() => navigate(`/bookings/${bookingId}`)}
-						>
+							onClick={() => navigate(`/bookings/${bookingId}`)}>
 							See details
 						</Menus.Button>
 						{status === "unconfirmed" && (
@@ -111,8 +106,7 @@ function BookingRow({
 								icon={<HiArrowDownOnSquare />}
 								onClick={() =>
 									navigate(`/checkin/${bookingId}`)
-								}
-							>
+								}>
 								Check in
 							</Menus.Button>
 						)}
@@ -120,8 +114,7 @@ function BookingRow({
 							<Menus.Button
 								icon={<HiArrowUpOnSquare />}
 								onClick={() => checkout(bookingId)}
-								disabled={isCheckingOut}
-							>
+								disabled={isCheckingOut}>
 								Check out
 							</Menus.Button>
 						)}

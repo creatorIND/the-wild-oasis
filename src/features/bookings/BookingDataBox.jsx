@@ -45,7 +45,6 @@ const Header = styled.header`
 	}
 
 	& span {
-		font-family: "Sono";
 		font-size: 2rem;
 		margin-left: 4px;
 	}
@@ -162,24 +161,21 @@ function BookingDataBox({ booking }) {
 				{observations && (
 					<DataItem
 						icon={<HiOutlineChatBubbleBottomCenterText />}
-						label="Observations"
-					>
+						label="Observations">
 						{observations}
 					</DataItem>
 				)}
 
 				<DataItem
 					icon={<HiOutlineCheckCircle />}
-					label="Breakfast included?"
-				>
+					label="Breakfast included?">
 					{hasBreakfast ? "Yes" : "No"}
 				</DataItem>
 
 				<Price $isPaid={isPaid}>
 					<DataItem
 						icon={<HiOutlineCurrencyDollar />}
-						label={`Total price`}
-					>
+						label={`Total price`}>
 						{formatCurrency(totalPrice)}
 
 						{hasBreakfast &&

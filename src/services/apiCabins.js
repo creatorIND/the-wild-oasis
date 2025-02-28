@@ -7,7 +7,6 @@ export async function getCabins() {
 		.order("created_at", { ascending: true });
 
 	if (error) {
-		console.error(error);
 		throw new Error("Cabins could not be loaded");
 	}
 
@@ -43,7 +42,6 @@ export async function createEditCabin(newCabin, id) {
 	const { data, error } = await query.select();
 
 	if (error) {
-		console.error(error);
 		throw new Error("Cabins could not be created");
 	}
 
@@ -56,7 +54,6 @@ export async function createEditCabin(newCabin, id) {
 	// 3. Delete the cabin if there was an error uploading the image
 	if (storageError) {
 		await supabase.from("cabins").delete().eq("id", data.id);
-		console.error(storageError);
 		throw new Error(
 			"Cabins image could not be uploaded, so the cabin is not created"
 		);

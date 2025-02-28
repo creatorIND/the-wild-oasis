@@ -55,8 +55,7 @@ function CreateCabinForm({ cabinToEdit = {}, onCloseModal }) {
 	return (
 		<Form
 			onSubmit={handleSubmit(onSubmit)}
-			type={onCloseModal ? "modal" : "regular"}
-		>
+			type={onCloseModal ? "modal" : "regular"}>
 			<FormRow label="Cabin name" error={errors?.name?.message}>
 				<Input
 					type="text"
@@ -70,8 +69,7 @@ function CreateCabinForm({ cabinToEdit = {}, onCloseModal }) {
 
 			<FormRow
 				label="Maximum capacity"
-				error={errors?.maxCapacity?.message}
-			>
+				error={errors?.maxCapacity?.message}>
 				<Input
 					type="number"
 					id="maxCapacity"
@@ -88,8 +86,7 @@ function CreateCabinForm({ cabinToEdit = {}, onCloseModal }) {
 
 			<FormRow
 				label="Regular price"
-				error={errors?.regularPrice?.message}
-			>
+				error={errors?.regularPrice?.message}>
 				<Input
 					type="number"
 					id="regularPrice"
@@ -121,8 +118,7 @@ function CreateCabinForm({ cabinToEdit = {}, onCloseModal }) {
 
 			<FormRow
 				label="Description for website"
-				error={errors?.description?.message}
-			>
+				error={errors?.description?.message}>
 				<Textarea
 					type="number"
 					id="description"
@@ -151,8 +147,7 @@ function CreateCabinForm({ cabinToEdit = {}, onCloseModal }) {
 				<Button
 					variation="secondary"
 					type="reset"
-					onClick={() => onCloseModal?.()}
-				>
+					onClick={() => onCloseModal?.()}>
 					Cancel
 				</Button>
 				<Button disabled={isWorking}>
