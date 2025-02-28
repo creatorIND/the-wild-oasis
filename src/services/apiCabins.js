@@ -39,16 +39,21 @@ export async function createEditCabin(newCabin, id) {
 
 	// B. EDIT
 	if (id) {
-		query = query
-			.update({ ...newCabin, image: imagePath })
-			.eq("id", id)
-			.select();
+		query = query.update({ ...newCabin, image: imagePath }).eq("id", id);
 	}
 
 	const { data, error } = await query.select();
 
 	if (error) {
-		throw new Error("Cabins could not be created");
+		if (error.code === "42501" && !id) {
+			throw new Error("Test users are not allowed to create cabins");
+		}
+
+		throw new Error(`Cabin could not be ${id ? "updated" : "created"}`);
+	}
+
+	if (!data || data.length === 0) {
+		throw new Error("Test users are not allowed to modify cabins");
 	}
 
 	// 2. Upload image
@@ -76,9 +81,17 @@ export async function createEditCabin(newCabin, id) {
 }
 
 export async function deleteCabin(id) {
-	const { error } = await supabase.from("cabins").delete().eq("id", id);
+	const { data, error } = await supabase
+		.from("cabins")
+		.delete()
+		.eq("id", id)
+		.select();
 
 	if (error) {
 		throw new Error("Cabin could not be deleted");
+	}
+
+	if (!data || data.length === 0) {
+		throw new Error("Test users are not allowed to delete cabins");
 	}
 }
