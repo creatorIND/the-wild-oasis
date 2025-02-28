@@ -37,6 +37,7 @@ function CreateCabinForm({ cabinToEdit = {}, onCloseModal }) {
 						reset(getValues());
 						onCloseModal?.();
 					},
+					onError: () => onCloseModal?.(),
 				}
 			);
 		} else {
@@ -47,6 +48,7 @@ function CreateCabinForm({ cabinToEdit = {}, onCloseModal }) {
 						reset();
 						onCloseModal?.();
 					},
+					onError: () => onCloseModal?.(),
 				}
 			);
 		}
