@@ -6,22 +6,14 @@ import FormRow from "../../ui/FormRow";
 import Input from "../../ui/Input";
 
 import { useUpdateUser } from "./useUpdateUser";
-import { useUser } from "./useUser";
-
-const testUserMail = import.meta.env.VITE_LOGIN_ID;
 
 function UpdatePasswordForm() {
 	const { register, handleSubmit, formState, getValues, reset } = useForm();
 	const { errors } = formState;
 
-	const { user } = useUser();
 	const { updateUser, isUpdatingUser } = useUpdateUser();
 
-	const isTestUser = user.email === testUserMail;
-
 	function onSubmit({ password }) {
-		if (isTestUser) return;
-
 		updateUser({ password }, { onSuccess: reset });
 	}
 
@@ -29,14 +21,12 @@ function UpdatePasswordForm() {
 		<Form onSubmit={handleSubmit(onSubmit)}>
 			<FormRow
 				label="New Password (min 8 chars)"
-				error={errors?.password?.message}
-			>
+				error={errors?.password?.message}>
 				<Input
 					type="password"
 					id="password"
-					placeholder={isTestUser ? "Not allowed for this user" : ""}
 					autoComplete="new-password"
-					disabled={isUpdatingUser || isTestUser}
+					disabled={isUpdatingUser}
 					{...register("password", {
 						required: "This field is required",
 						minLength: {
@@ -49,14 +39,12 @@ function UpdatePasswordForm() {
 
 			<FormRow
 				label="Confirm password"
-				error={errors?.passwordConfirm?.message}
-			>
+				error={errors?.passwordConfirm?.message}>
 				<Input
 					type="password"
 					autoComplete="new-password"
-					placeholder={isTestUser ? "Not allowed for this user" : ""}
 					id="passwordConfirm"
-					disabled={isUpdatingUser || isTestUser}
+					disabled={isUpdatingUser}
 					{...register("passwordConfirm", {
 						required: "This field is required",
 						validate: (value) =>
@@ -70,13 +58,10 @@ function UpdatePasswordForm() {
 					onClick={reset}
 					type="reset"
 					variation="secondary"
-					disabled={isUpdatingUser || isTestUser}
-				>
+					disabled={isUpdatingUser}>
 					Cancel
 				</Button>
-				<Button disabled={isUpdatingUser || isTestUser}>
-					Update password
-				</Button>
+				<Button disabled={isUpdatingUser}>Update password</Button>
 			</FormRow>
 		</Form>
 	);
