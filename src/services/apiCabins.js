@@ -1,4 +1,5 @@
 import supabase, { supabaseUrl } from "./supabase";
+import { sanitizeKey } from "../utils/helpers";
 
 export async function getCabins() {
 	const { data, error } = await supabase
@@ -16,12 +17,17 @@ export async function getCabins() {
 export async function createEditCabin(newCabin, id) {
 	const hasImagePath = newCabin.image?.startsWith?.(supabaseUrl);
 
-	const imageName = `${Math.random()}-${newCabin.image.name}`.replaceAll(
-		"/",
-		""
-	);
-	const newImageURL = `${supabaseUrl}/storage/v1/object/public/cabin-images/${imageName}`;
-	const imagePath = hasImagePath ? newCabin.image : newImageURL;
+	// Only generate imageName if uploading a new image
+	let imageName;
+	if (!hasImagePath && newCabin.image.name) {
+		const baseName = sanitizeKey(newCabin.image.name);
+		imageName = `${Math.random()}-${baseName}`;
+	}
+
+	const newImageURL = hasImagePath
+		? newCabin.image
+		: `${supabaseUrl}/storage/v1/object/public/cabin-images/${imageName}`;
+	const imagePath = newImageURL;
 
 	// 1. Create/Edit
 	let query = supabase.from("cabins");

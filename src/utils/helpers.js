@@ -28,3 +28,17 @@ export const formatCurrency = (value) =>
 	new Intl.NumberFormat("en", { style: "currency", currency: "USD" }).format(
 		value
 	);
+
+// Remove invalid characters from image file name before uploading to Supabase
+export const sanitizeKey = (fileName) => {
+	// S3-safe character pattern from Supabase
+	const validPattern = /^(\w|\/|!|-|\.|\*|'|\(|\)| |&|\$|@|=|;|:|\+|,|\?)*$/;
+	let sanitized = fileName;
+
+	// If the filename contains invalid characters, sanitize it
+	if (!validPattern.test(sanitized)) {
+		sanitized = sanitized.replace(/[^a-zA-Z0-9!-_.*'() &$@=;:+,?/]/g, "");
+	}
+
+	return sanitized;
+};
